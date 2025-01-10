@@ -13,8 +13,8 @@ timezone: 'Asia/Shanghai' # http://momentjs.com/timezone/docs/#/data-utilities/g
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://bush-cn.github.io/blog
-root: /blog
+url: http://bush-cn.github.io
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -51,10 +51,12 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
+  exclude_languages: ['mermaid']
 prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
+  exclude_languages: ['mermaid']
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -104,4 +106,4 @@ theme: butterfly
 deploy:
   type: git
   repo: https://github.com/bush-cn/blog.git
-  branch: main
+  branch: gh-pages
