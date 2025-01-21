@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>论文阅读-Memory Management Test-Case Generation of C Programs using Bounded Model Checking</title>
+      <link href="/2025/01/19/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/"/>
+      <url>/2025/01/19/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/</url>
+      
+        <content type="html"><![CDATA[<p>论文链接：<a href="https://link.springer.com/chapter/10.1007/978-3-319-22969-0_18">Memory Management Test-Case Generation of C Programs Using Bounded Model Checking | SpringerLink</a></p><h2 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h2><ul><li>Efficient SMT-Based Bounded Model Checking（<strong>ESBMC</strong>，原文：<a href="https://ieeexplore.ieee.org/abstract/document/5928354">SMT-Based Bounded Model Checking for Embedded ANSI-C Software | IEEE Journals &amp; Magazine | IEEE Xplore</a>）：ESBMC以C语言源程序为输入，以一系列“Claim”为输出，这些Claim指明了该程序的安全属性，即可能出现内存错误的地方，包括检查与算术不足和溢出、零除法、越界索引、指针安全、死锁和数据竞争相关的属性。在ESBMC中，验证过程是完全自动化的，不需要用户使用前条件或后条件注释程序。</li><li><strong>Safety Properties</strong>：论文定义了“安全属性”的概念。如果一个系统不能满足一个安全属性，那么就存在一个有限的执行来显示这个失败，使用断言将对应的错误复现，就可以生成针对性的testcase。</li><li><strong>CUnit</strong>（<a href="https://cunit.sourceforge.net/doc/introduction.html#usage">CUnit - Introduction (sourceforge.net)</a>）：测试框架。CUnit支持更好的组织和代码重用，以更有效的方式创建单元测试。其支持完整的C语言书写，并提供了一组用于测试逻辑条件的断言。</li></ul><h2 id="方法过程"><a href="#方法过程" class="headerlink" title="方法过程"></a>方法过程</h2><p><img src="/../assets/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/image-20250121204757596.png" alt="image-20250121204757596"></p><ol><li>用ESBMC识别安全属性，得到Claims。</li><li>从安全属性中提取信息。即从四个方面分析Claim：identification、comments、line number、property。</li><li>翻译安全属性。即将Claims翻译成C程序中的断言代码。</li><li>内存跟踪分析。使用Pycparser（<a href="https://github.com/eliben/pycparser">eliben&#x2F;pycparser: :snake: Complete C99 parser in pure Python (github.com)</a>）生成C语言的语法树AST，再根据AST进行分析，目的是确保指针安全性。分为两个阶段：<ol><li>识别和跟踪所分析的源代码中的变量，以及变量的操作和分配。对于非指针，直接进行变量映射；对于指针，执行对象映射，跟踪指针的运算、分配、回收。</li><li>对源代码的特定功能，用于根据程序执行监视内存地址和这些变量指向的地址。插入函数<code>mark_map_MF</code>，改函数以前阶段映射的数据为输入，维护一个包含内存地址、指向的地址、作用域范围、标识符、行数的列表，最后生成Map2Check提供的断言函数。</li></ol></li><li>根据ESBMC和Map2Check生成的断言生成testcase，包括原生C语言的断言和测试框架的断言函数。</li><li>测试实施，包括两个测试模型。</li><li>执行测试。</li></ol><h2 id="一些疑问"><a href="#一些疑问" class="headerlink" title="一些疑问"></a>一些疑问</h2><ul><li>论文里变量的<code>dynamic</code>是什么意思？</li><li>两个测试模型没看懂🤯</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++单元测试生成 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>C++单测生成调研</title>
       <link href="/2025/01/12/C-%E5%8D%95%E6%B5%8B%E7%94%9F%E6%88%90%E8%B0%83%E7%A0%94/"/>
       <url>/2025/01/12/C-%E5%8D%95%E6%B5%8B%E7%94%9F%E6%88%90%E8%B0%83%E7%A0%94/</url>
@@ -13,14 +32,14 @@
       
       <categories>
           
-          <category> C++单测生成 </category>
+          <category> C++单元测试生成 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> C++单测生成 </tag>
+            <tag> C++单yuan生成 </tag>
             
         </tags>
       
