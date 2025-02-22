@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>ChatDev总结笔记</title>
+      <link href="/2025/02/22/ChatDev%E6%80%BB%E7%BB%93%E7%AC%94%E8%AE%B0/"/>
+      <url>/2025/02/22/ChatDev%E6%80%BB%E7%BB%93%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基于大模型智能体的虚拟化软件开发团队"><a href="#基于大模型智能体的虚拟化软件开发团队" class="headerlink" title="基于大模型智能体的虚拟化软件开发团队"></a>基于大模型智能体的虚拟化软件开发团队</h1><h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><p>软件开发过程涉及到需求分析、总体设计、详细设计、编码和测试等多种活动和多种角色的开发者。随着大模型技术的快速发展，很多软件开发活动都可以通过自动化和智能化方式来实现。本项目利用<strong>大模型</strong>和<strong>多智能体</strong>技术来实现智能化软件开发全过程，通过agent模拟不同角色的软件开发人员，通过agent之间的协同完成复杂的软件开发过程。</p><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://openreview.net/pdf?id=yW0AZ5wPji">https://openreview.net/pdf?id=yW0AZ5wPji</a></p><h1 id="ChatDev论文总结"><a href="#ChatDev论文总结" class="headerlink" title="ChatDev论文总结"></a>ChatDev论文总结</h1><h2 id="What-is-ChatDev"><a href="#What-is-ChatDev" class="headerlink" title="What is ChatDev?"></a>What is ChatDev?</h2><p>ChatDev, a <em>chat</em>-powered software-<em>dev</em>elopment framework integrating multiple “software agents” for active involvement in three core phases of the software lifecycle: design, coding, and testing.</p><h2 id="Methodology"><a href="#Methodology" class="headerlink" title="Methodology"></a>Methodology</h2><h3 id="1-chat-chain"><a href="#1-chat-chain" class="headerlink" title="1. chat chain"></a>1. chat chain</h3><p>ChatDev introduces <em>chat chain</em> to further break down each phase into smaller and manageable subtasks</p><ul><li>waterfall model -&gt; chat chain</li><li>chat chain -&gt; sequential phases</li><li>phase -&gt; sequential subtasks<ul><li>coding phase -&gt; code writing + completion</li><li>testing phase -&gt; code review (static testing) + system testing (dynamic testing)</li></ul></li><li>subtask -&gt; extraction of solutions -&gt; dialogue of Instructor &amp; Assistant</li><li>dialogue -&gt; loop -&gt; instructor instructing while assistant responding</li></ul><hr><ul><li><strong>Agentization</strong>: inception prompting mechanism</li><li><strong>Memory</strong>: <em>short-term memory</em> &#x2F; <em>long-term memory</em></li></ul><h3 id="2-communicative-dehallucination"><a href="#2-communicative-dehallucination" class="headerlink" title="2. communicative dehallucination"></a>2. communicative dehallucination</h3><p>ChatDev devise <em>communicative dehallucination</em> to alleviate unexpected hallucinations, which <u>encourages the assistant to actively seek more detailed suggestions from the instructor before delivering a formal response.</u></p><h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><ul><li>Baselines: GPT-Engineer(fundamental), MetaGPT(advanced)</li><li>Datasets: SRDD</li><li>Metrics: Completeness + Executability + Consistency &#x3D; Quality</li></ul><p>The most important: multiple agents and roles</p><h2 id="Limitations-Solutions"><a href="#Limitations-Solutions" class="headerlink" title="Limitations &amp; Solutions"></a><strong>Limitations</strong> &amp; Solutions</h2><ol><li>Firstly, the capabilities of autonomous agents in software production might be overestimated: <u>it is crucial to clearly define detailed software requirements.</u></li><li>Secondly, unlike traditional function level code generation, automating the evaluation of general-purpose software is highly complex: <u>consider additional factors such as functionalities, robustness, safety, and user-friendliness.</u></li><li>Thirdly, compared to single-agent approaches, multiple agents require more tokens and time, increasing computational demands and environmental impact: <u>enhance agent capabilities with fewer interactions</u></li></ol><h1 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h1><ul><li>针对论文提到的第二点不足，利用多模态大模型添加用户这一agent，提供对应用的界面、操作、使用等的反馈，作为增加的评判软件质量的标准并加以迭代</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 虚拟化软件开发团队 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ChatDev </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>论文阅读-Memory Management Test-Case Generation of C Programs using Bounded Model Checking</title>
       <link href="/2025/01/19/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/"/>
       <url>/2025/01/19/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/</url>
