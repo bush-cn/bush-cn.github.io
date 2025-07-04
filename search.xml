@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Java复习笔记</title>
+      <link href="/2025/07/04/Java%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+      <url>/2025/07/04/Java%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 实习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>跨域问题及解决方案</title>
       <link href="/2025/06/13/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
       <url>/2025/06/13/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
@@ -20,9 +45,9 @@
       
         <tags>
             
-            <tag> 后端 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 后端 </tag>
             
             <tag> 跨域 </tag>
             
@@ -51,9 +76,9 @@
       
         <tags>
             
-            <tag> 后端 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 后端 </tag>
             
             <tag> WebSocket </tag>
             
@@ -82,9 +107,9 @@
       
         <tags>
             
-            <tag> 后端 </tag>
-            
             <tag> Java </tag>
+            
+            <tag> 后端 </tag>
             
             <tag> Java多线程 </tag>
             
@@ -111,11 +136,11 @@
       
         <tags>
             
+            <tag> Java </tag>
+            
             <tag> 后端 </tag>
             
             <tag> Redis </tag>
-            
-            <tag> Java </tag>
             
         </tags>
       
