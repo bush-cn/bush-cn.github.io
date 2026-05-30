@@ -6,7 +6,7 @@ tags:
     - Redis
     - Java
 categories:
-    - 后端
+  - Java企业级开发
 ---
 
 # Redis学习笔记

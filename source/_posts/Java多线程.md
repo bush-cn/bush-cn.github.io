@@ -5,8 +5,8 @@ tags:
     - 后端
     - Java
     - Java多线程
-categories:
-    - 后端
+categories:  
+  - Java企业级开发
 ---
 
 ## **Java多线程**

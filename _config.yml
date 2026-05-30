@@ -107,3 +107,24 @@ deploy:
   type: git
   repo: https://github.com/bush-cn/blog.git
   branch: gh-pages
+
+markdown:
+  plugins:
+    - '@renbaoshuo/markdown-it-katex'
+  anchors:
+    # Minimum level for ID creation. (Ex. h2 to h6)
+    level: 1
+    # A suffix that is prepended to the number given if the ID is repeated.
+    collisionSuffix: ''
+    # If `true`, creates an anchor tag with a permalink besides the heading.
+    permalink: false
+    # Class used for the permalink anchor tag.
+    permalinkClass: header-anchor
+    # Set to 'right' to add permalink after heading
+    permalinkSide: 'left'
+    # The symbol used to make the permalink
+    permalinkSymbol: ¶
+    # Transform anchor to (1) lower case; (2) upper case
+    case: 0
+    # Replace space with a character
+    separator: '-'

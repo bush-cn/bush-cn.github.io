@@ -18,7 +18,7 @@ categories:
 
 ## 方法过程
 
-![image-20250121204757596](../assets/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-Memory-Management-Test-Case-Generation-of-C-Programs-using-Bounded-Model-Checking/image-20250121204757596.png)
+![image-20250121204757596](https://cdn.jsdelivr.net/gh/bush-cn/TyporaImages@main/img/2025/07/11/20250711101732.png)
 
 1. 用ESBMC识别安全属性，得到Claims。
 2. 从安全属性中提取信息。即从四个方面分析Claim：identification、comments、line number、property。
