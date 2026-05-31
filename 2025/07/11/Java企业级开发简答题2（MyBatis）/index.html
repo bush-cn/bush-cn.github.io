@@ -1,0 +1,907 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java企业级开发简答题2（MyBatis） | bush's Blog</title><meta name="author" content="bush Wu"><meta name="copyright" content="bush Wu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="作业 2：简答题  22371495 吴自强  [TOC] 1. 简述 MyBatis 的工作原理 MyBatis 的工作原理可以概括如下： 一、配置阶段  加载配置文件 MyBatis 启动时会加载 mybatis-config.xml 配置文件，其中包括数据库连接信息、Mapper 映射文件路径等。 构建 SqlSessionFactory 通过 SqlSessionFactoryBuilde">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java企业级开发简答题2（MyBatis）">
+<meta property="og:url" content="http://bush-cn.github.io/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%982%EF%BC%88MyBatis%EF%BC%89/index.html">
+<meta property="og:site_name" content="bush&#39;s Blog">
+<meta property="og:description" content="作业 2：简答题  22371495 吴自强  [TOC] 1. 简述 MyBatis 的工作原理 MyBatis 的工作原理可以概括如下： 一、配置阶段  加载配置文件 MyBatis 启动时会加载 mybatis-config.xml 配置文件，其中包括数据库连接信息、Mapper 映射文件路径等。 构建 SqlSessionFactory 通过 SqlSessionFactoryBuilde">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://bush-cn.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-07-11T07:11:42.000Z">
+<meta property="article:modified_time" content="2026-05-30T14:33:43.176Z">
+<meta property="article:author" content="bush Wu">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bush-cn.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Java企业级开发简答题2（MyBatis）",
+  "url": "http://bush-cn.github.io/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%982%EF%BC%88MyBatis%EF%BC%89/",
+  "image": "http://bush-cn.github.io/img/avatar.jpg",
+  "datePublished": "2025-07-11T07:11:42.000Z",
+  "dateModified": "2026-05-30T14:33:43.176Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "bush Wu",
+      "url": "http://bush-cn.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://bush-cn.github.io/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%982%EF%BC%88MyBatis%EF%BC%89/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: bush Wu","link":"链接: ","source":"来源: bush's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java企业级开发简答题2（MyBatis）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(to left, rgb(76, 161, 175), rgb(196, 224, 229));"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/favicon.png" alt="Logo"><span class="site-name">bush's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Java企业级开发简答题2（MyBatis）</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Java企业级开发简答题2（MyBatis）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-11T07:11:42.000Z" title="发表于 2025-07-11 15:11:42">2025-07-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-30T14:33:43.176Z" title="更新于 2026-05-30 22:33:43">2026-05-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91/">Java企业级开发</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="作业-2：简答题">作业 2：简答题</h1>
+<blockquote>
+<p>22371495 吴自强</p>
+</blockquote>
+<p>[TOC]</p>
+<h3 id="1-简述-MyBatis-的工作原理">1. 简述 MyBatis 的工作原理</h3>
+<p><u>MyBatis 的<strong>工作原理</strong></u>可以概括如下：</p>
+<p><strong>一、配置阶段</strong></p>
+<ol>
+<li><strong>加载配置文件</strong><br>
+MyBatis 启动时会加载 <code>mybatis-config.xml</code> 配置文件，其中包括数据库连接信息、Mapper 映射文件路径等。</li>
+<li><strong>构建 SqlSessionFactory</strong><br>
+通过 <code>SqlSessionFactoryBuilder</code> 读取配置文件并构建 <code>SqlSessionFactory</code>。这个工厂负责创建 <code>SqlSession</code>。</li>
+</ol>
+<p><strong>二、运行阶段</strong></p>
+<ol>
+<li><strong>创建 SqlSession</strong><br>
+应用程序通过 <code>SqlSessionFactory</code> 创建一个 <code>SqlSession</code> 对象，用于执行 SQL。</li>
+<li><strong>执行 SQL 映射</strong>
+<ul>
+<li>使用接口绑定（Mapper 接口）或者 XML 映射文件中的 SQL 语句。</li>
+<li>MyBatis 会根据 <code>Mapper.xml</code> 中的 SQL 映射，将参数传入、生成最终 SQL，并执行。</li>
+</ul>
+</li>
+<li><strong>执行 JDBC 操作</strong><br>
+MyBatis 底层仍然使用 JDBC 执行 SQL，通过 JDBC 与数据库交互。</li>
+<li><strong>结果映射</strong><br>
+SQL 执行后返回结果，MyBatis 会将结果集根据 <code>resultMap</code> 或自动映射机制转换为 Java 对象。</li>
+</ol>
+<p><strong>三、关闭资源</strong></p>
+<p><code>SqlSession</code> 使用完毕后要关闭，以释放数据库连接资源。</p>
+<h3 id="2-简述-MyBatis-和-Spring-的整合过程">2. 简述 MyBatis 和 Spring 的整合过程</h3>
+<ol>
+<li>添加依赖（Maven）</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>配置数据库连接（<code>application.yml</code>）</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/testdb</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>配置 MyBatis（可选）</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mapper/*.xml</span></span><br><span class="line">  <span class="attr">type-aliases-package:</span> <span class="string">com.example.model</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>编写 Mapper 接口 + XML 或注解</li>
+</ol>
+<p>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    User <span class="title function_">selectById</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或使用 <code>@MapperScan</code> 注解批量扫描：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@MapperScan(&quot;com.example.mapper&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyApp</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>XML（位于 <code>resources/mapper/UserMapper.xml</code>）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">  SELECT * FROM users WHERE id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-除-MyBatis-持久化框架外，您还知道哪些持久化框架？并说明他们的特点">3. 除 MyBatis 持久化框架外，您还知道哪些持久化框架？并说明他们的特点</h3>
+<h4 id="1-Hibernate">1. <strong>Hibernate</strong></h4>
+<blockquote>
+<p>全功能的 ORM 框架，JPA 的重要实现。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li><strong>全自动 ORM 映射</strong>：可以自动将数据库表映射成 Java 对象。</li>
+<li><strong>支持 HQL（Hibernate Query Language）</strong>：比 SQL 更面向对象。</li>
+<li><strong>支持懒加载、缓存、事务管理等高级特性</strong>。</li>
+<li>与 Spring 整合紧密，支持 JPA 注解。</li>
+</ul>
+<p>适用场景：</p>
+<ul>
+<li>需要复杂对象关系映射、大量实体管理的企业系统。</li>
+</ul>
+<h4 id="2-JPA（Java-Persistence-API）">2. <strong>JPA（Java Persistence API）</strong></h4>
+<blockquote>
+<p>Java 官方定义的 ORM 标准接口，Hibernate、EclipseLink 都是其实现。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li><strong>标准统一接口</strong>，降低耦合度。</li>
+<li>提供 <strong>注解驱动的数据映射</strong>。</li>
+<li>支持 JPQL 查询语言。</li>
+<li><strong>易与 Spring Data JPA 整合</strong>。</li>
+</ul>
+<p>适用场景：</p>
+<ul>
+<li>需要与不同 ORM 框架解耦或追求官方规范兼容性的项目。</li>
+</ul>
+<h4 id="3-Spring-Data-JPA">3. <strong>Spring Data JPA</strong></h4>
+<blockquote>
+<p>是对 JPA 的进一步封装，属于 Spring Data 家族。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li><strong>简化 DAO 层开发</strong>：只写接口就能自动实现 CRUD。</li>
+<li>支持方法名自动解析为查询语句（如 <code>findByUsernameAndAge</code>）。</li>
+<li>集成分页、排序、动态查询等功能。</li>
+</ul>
+<p>适用场景：</p>
+<ul>
+<li>业务模型以实体类为主、CRUD 操作多的项目。</li>
+</ul>
+<h4 id="4-Apache-iBATIS（MyBatis-前身）">4. <strong>Apache iBATIS（MyBatis 前身）</strong></h4>
+<blockquote>
+<p>早期的 SQL 映射框架，MyBatis 是它的分支。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li>允许开发者手写 SQL，控制力强。</li>
+<li>已较少使用，建议用 MyBatis 代替。</li>
+</ul>
+<h4 id="5-jOOQ">5. <strong>jOOQ</strong></h4>
+<blockquote>
+<p>面向 SQL 的类型安全 DSL（领域特定语言）框架。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li>将 SQL 编写为 Java 代码，具有编译时语法检查。</li>
+<li>适合复杂查询，类型安全。</li>
+<li>更贴近数据库开发人员思维。</li>
+</ul>
+<p>适用场景：</p>
+<ul>
+<li>注重 SQL 灵活性与类型安全的系统，或需要动态构造复杂 SQL 的项目。</li>
+</ul>
+<h4 id="6-Spring-Data-JDBC">6. <strong>Spring Data JDBC</strong></h4>
+<blockquote>
+<p>类似 JPA，但更轻量，基于 JDBC + Spring。</p>
+</blockquote>
+<p>特点：</p>
+<ul>
+<li>不使用复杂的 ORM 功能，仅支持简单的实体关系。</li>
+<li>更易调试，性能更可控。</li>
+<li>避免了懒加载和复杂映射问题。</li>
+</ul>
+<p>适用场景：</p>
+<ul>
+<li>项目简单，追求可预测行为、轻量的系统。</li>
+</ul>
+<hr>
+<p>总结对比（核心点）：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>是否 ORM</th>
+<th>控制力</th>
+<th>上手难度</th>
+<th>自动化程度</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hibernate</strong></td>
+<td>✅</td>
+<td>中</td>
+<td>中等</td>
+<td>高</td>
+<td>复杂业务模型，标准 ORM</td>
+</tr>
+<tr>
+<td><strong>JPA</strong></td>
+<td>✅</td>
+<td>中</td>
+<td>中等</td>
+<td>高</td>
+<td>遵循标准规范的企业系统</td>
+</tr>
+<tr>
+<td><strong>Spring Data JPA</strong></td>
+<td>✅</td>
+<td>低</td>
+<td>✅ 简单</td>
+<td>✅ 很高</td>
+<td>快速开发、常规 CRUD 项目</td>
+</tr>
+<tr>
+<td><strong>MyBatis</strong></td>
+<td>❌</td>
+<td>✅ 高</td>
+<td>中等</td>
+<td>中</td>
+<td>需要手写 SQL，适合灵活控制</td>
+</tr>
+<tr>
+<td><strong>jOOQ</strong></td>
+<td>❌</td>
+<td>✅ 高</td>
+<td>高</td>
+<td>中</td>
+<td>动态 SQL、类型安全、数据库驱动项目</td>
+</tr>
+<tr>
+<td><strong>Spring Data JDBC</strong></td>
+<td>❌</td>
+<td>✅ 高</td>
+<td>✅ 简单</td>
+<td>中</td>
+<td>简单系统、避免 ORM 复杂性的项目</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-MyBatis-实现查询时，返回的结果集有几种常见的存储方式？请举例说明。">4. MyBatis 实现查询时，返回的结果集有几种常见的存储方式？请举例说明。</h3>
+<h5 id="1-返回-单个对象">1. 返回 <strong>单个对象</strong></h5>
+<p><strong>说明：</strong></p>
+<p>当查询结果只有一条记录时，可以直接映射成一个 Java 对象。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getUserById&quot;</span> resultType=<span class="string">&quot;com.example.User&quot;</span>&gt;</span><br><span class="line">    SELECT id, username, email FROM users <span class="type">WHERE</span> <span class="variable">id</span> <span class="operator">=</span> #&#123;id&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="2-返回-对象列表（List）">2. 返回 <strong>对象列表（List）</strong></h5>
+<p><strong>说明：</strong></p>
+<p>当查询结果是多条记录时，可以映射为一个对象列表。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; <span class="title function_">getAllUsers</span><span class="params">()</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getAllUsers&quot;</span> resultType=<span class="string">&quot;com.example.User&quot;</span>&gt;</span><br><span class="line">    SELECT id, username, email FROM users</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="3-返回-Map">3. 返回 <strong>Map</strong></h5>
+<p><strong>方式一：一行结果映射为一个 Map（列名 → 值）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Map&lt;String, Object&gt;&gt; <span class="title function_">getAllUsersAsMap</span><span class="params">()</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getAllUsersAsMap&quot;</span> resultType=<span class="string">&quot;map&quot;</span>&gt;</span><br><span class="line">    SELECT id, username, email FROM users</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>返回结果示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;id=<span class="number">1</span>, username=<span class="string">&quot;Alice&quot;</span>, email=<span class="string">&quot;alice@example.com&quot;</span>&#125;,</span><br><span class="line">  &#123;id=<span class="number">2</span>, username=<span class="string">&quot;Bob&quot;</span>, email=<span class="string">&quot;bob@example.com&quot;</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong>方式二：多行结果以某列为 key 映射成一个大 Map</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MapKey(&quot;id&quot;)</span></span><br><span class="line">Map&lt;Integer, User&gt; <span class="title function_">getUsersMappedById</span><span class="params">()</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getUsersMappedById&quot;</span> resultType=<span class="string">&quot;com.example.User&quot;</span>&gt;</span><br><span class="line">    SELECT id, username, email FROM users</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<p>返回结果示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="number">1</span>: User&#123;id=<span class="number">1</span>, username=<span class="string">&quot;Alice&quot;</span>, ...&#125;,</span><br><span class="line">  <span class="number">2</span>: User&#123;id=<span class="number">2</span>, username=<span class="string">&quot;Bob&quot;</span>, ...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="4-返回-嵌套对象（多表联合查询）">4. 返回 <strong>嵌套对象（多表联合查询）</strong></h5>
+<p><strong>说明：</strong></p>
+<p>用于一对一、一对多等嵌套结构，需要使用 <code>resultMap</code>。</p>
+<p><strong>示例：用户和地址一对一</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">User <span class="title function_">getUserWithAddress</span><span class="params">(<span class="type">int</span> id)</span>;</span><br><span class="line">&lt;resultMap id=<span class="string">&quot;userMap&quot;</span> type=<span class="string">&quot;User&quot;</span>&gt;</span><br><span class="line">    &lt;id property=<span class="string">&quot;id&quot;</span> column=<span class="string">&quot;id&quot;</span>/&gt;</span><br><span class="line">    &lt;result property=<span class="string">&quot;username&quot;</span> column=<span class="string">&quot;username&quot;</span>/&gt;</span><br><span class="line">    &lt;association property=<span class="string">&quot;address&quot;</span> javaType=<span class="string">&quot;Address&quot;</span>&gt;</span><br><span class="line">        &lt;result property=<span class="string">&quot;city&quot;</span> column=<span class="string">&quot;city&quot;</span>/&gt;</span><br><span class="line">        &lt;result property=<span class="string">&quot;zipcode&quot;</span> column=<span class="string">&quot;zipcode&quot;</span>/&gt;</span><br><span class="line">    &lt;/association&gt;</span><br><span class="line">&lt;/resultMap&gt;</span><br><span class="line"></span><br><span class="line">&lt;select id=<span class="string">&quot;getUserWithAddress&quot;</span> resultMap=<span class="string">&quot;userMap&quot;</span>&gt;</span><br><span class="line">    SELECT u.id, u.username, a.city, a.zipcode</span><br><span class="line">    FROM users u</span><br><span class="line">    JOIN address a ON u.id = a.user_id</span><br><span class="line">    WHERE u.id = #&#123;id&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="5-返回-基本类型或包装类型">5. 返回 <strong>基本类型或包装类型</strong></h5>
+<p><strong>说明：</strong></p>
+<p>当查询结果只有单个字段时，可直接映射为 <code>String</code>、<code>Integer</code> 等基本类型。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; <span class="title function_">getAllUsernames</span><span class="params">()</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getAllUsernames&quot;</span> resultType=<span class="string">&quot;string&quot;</span>&gt;</span><br><span class="line">    SELECT username FROM users</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="5-在-MyBatis-中针对不同的数据库软件，-insert-元素如何将主键回填？">5. 在 MyBatis 中针对不同的数据库软件，&lt;insert&gt;元素如何将主键回填？</h3>
+<h4 id="一、使用-useGeneratedKeys">一、使用 <code>useGeneratedKeys</code></h4>
+<p>推荐用于 MySQL、H2 等支持 JDBC 自动生成主键的数据库,适用于：</p>
+<ul>
+<li>MySQL、SQL Server（部分版本）、H2</li>
+<li>要求数据库驱动支持 <code>getGeneratedKeys()</code></li>
+</ul>
+<p>示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">useGeneratedKeys</span>=<span class="string">&quot;true&quot;</span> <span class="attr">keyProperty</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">    INSERT INTO users (username, email)</span><br><span class="line">    VALUES (#&#123;username&#125;, #&#123;email&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<ul>
+<li><code>useGeneratedKeys=&quot;true&quot;</code>：表示使用 JDBC 的自动生成主键功能。</li>
+<li><code>keyProperty=&quot;id&quot;</code>：表示将生成的主键回填到 Java 对象的 <code>id</code> 属性中。</li>
+</ul>
+<p>Java 实体类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;  <span class="comment">// 数据库自增主键</span></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String email;</span><br><span class="line">    <span class="comment">// ...getter/setter...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二、使用-selectKey-子元素（适用于-Oracle、PostgreSQL、DB2-等）">二、使用 <code>selectKey</code> 子元素（适用于 Oracle、PostgreSQL、DB2 等）</h4>
+<p>适用于：</p>
+<ul>
+<li>不支持 JDBC <code>getGeneratedKeys()</code> 的数据库</li>
+<li>通常使用数据库函数/序列，如 Oracle 的 <code>SEQUENCE</code></li>
+</ul>
+<p><strong>Oracle 示例（插入前获取主键）：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">selectKey</span> <span class="attr">keyProperty</span>=<span class="string">&quot;id&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;int&quot;</span> <span class="attr">order</span>=<span class="string">&quot;BEFORE&quot;</span>&gt;</span></span><br><span class="line">        SELECT user_seq.NEXTVAL FROM dual</span><br><span class="line">    <span class="tag">&lt;/<span class="name">selectKey</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    INSERT INTO users (id, username, email)</span><br><span class="line">    VALUES (#&#123;id&#125;, #&#123;username&#125;, #&#123;email&#125;)</span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>keyProperty=&quot;id&quot;</code>：回填到 Java 对象的 <code>id</code> 字段</li>
+<li><code>order=&quot;BEFORE&quot;</code>：在执行 <code>INSERT</code> 语句 <strong>之前</strong> 先执行 <code>selectKey</code></li>
+</ul>
+<p><strong>PostgreSQL 示例（插入后获取主键）：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">&quot;insertUser&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    INSERT INTO users (username, email)</span><br><span class="line">    VALUES (#&#123;username&#125;, #&#123;email&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">selectKey</span> <span class="attr">keyProperty</span>=<span class="string">&quot;id&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;int&quot;</span> <span class="attr">order</span>=<span class="string">&quot;AFTER&quot;</span>&gt;</span></span><br><span class="line">        SELECT currval(&#x27;users_id_seq&#x27;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">selectKey</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-在-MyBatis-中，如何给-SQL-语句传递参数？">6. 在 MyBatis 中，如何给 SQL 语句传递参数？</h3>
+<h5 id="1-单个参数">1. <strong>单个参数</strong></h5>
+<p><strong>示例：</strong></p>
+<p>Mapper 接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User <span class="title function_">getUserById</span><span class="params">(<span class="type">int</span> id)</span>;</span><br></pre></td></tr></table></figure>
+<p>对应 Mapper XML：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    SELECT * FROM users WHERE id = #&#123;id&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 <code>#&#123;id&#125;</code> 绑定参数，MyBatis 会自动将方法参数与 SQL 中的占位符绑定。</p>
+</blockquote>
+<h5 id="2-多个参数">2. <strong>多个参数</strong></h5>
+<p>Java 方法的多个参数，MyBatis 默认会使用 <strong>param1、param2、…</strong> 来命名，或者你可以使用 <code>@Param</code> 注解命名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">User <span class="title function_">getUserByUsernameAndEmail</span><span class="params">(<span class="meta">@Param(&quot;username&quot;)</span> String username,</span></span><br><span class="line"><span class="params">                               <span class="meta">@Param(&quot;email&quot;)</span> String email)</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getUserByUsernameAndEmail&quot;</span> resultType=<span class="string">&quot;User&quot;</span>&gt;</span><br><span class="line">    SELECT * FROM users</span><br><span class="line">    <span class="type">WHERE</span> <span class="variable">username</span> <span class="operator">=</span> #&#123;username&#125; <span class="type">AND</span> <span class="variable">email</span> <span class="operator">=</span> #&#123;email&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>💡 <code>#&#123;&#125;</code> 中的名字必须和 <code>@Param(&quot;xxx&quot;)</code> 对应。</p>
+</blockquote>
+<h5 id="3-传递-JavaBean-或-Map-类型参数">3. <strong>传递 JavaBean 或 Map 类型参数</strong></h5>
+<p>方式一：JavaBean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">insertUser</span><span class="params">(User user)</span>;</span><br><span class="line">&lt;insert id=<span class="string">&quot;insertUser&quot;</span>&gt;</span><br><span class="line">    INSERT INTO <span class="title function_">users</span> <span class="params">(username, email)</span></span><br><span class="line">    VALUES (#&#123;username&#125;, #&#123;email&#125;)</span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>直接使用 JavaBean 的属性名作为占位符：<code>#&#123;属性名&#125;</code></p>
+</blockquote>
+<hr>
+<p>方式二：Map</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">User <span class="title function_">getUser</span><span class="params">(Map&lt;String, Object&gt; params)</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getUser&quot;</span> resultType=<span class="string">&quot;User&quot;</span>&gt;</span><br><span class="line">    SELECT * FROM users <span class="type">WHERE</span> <span class="variable">username</span> <span class="operator">=</span> #&#123;username&#125; <span class="type">AND</span> <span class="variable">email</span> <span class="operator">=</span> #&#123;email&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>用法与 JavaBean 一致，都是 <code>#&#123;key&#125;</code></p>
+</blockquote>
+<h5 id="4-集合参数（用于-IN-查询）">4. <strong>集合参数（用于 <code>IN</code> 查询）</strong></h5>
+<p>当传入的是集合或数组，用于 SQL 的 <code>IN</code> 子句时，需要使用 <code>foreach</code> 标签。示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;User&gt; <span class="title function_">getUsersByIds</span><span class="params">(<span class="meta">@Param(&quot;ids&quot;)</span> List&lt;Integer&gt; ids)</span>;</span><br><span class="line">&lt;select id=<span class="string">&quot;getUsersByIds&quot;</span> resultType=<span class="string">&quot;User&quot;</span>&gt;</span><br><span class="line">    SELECT * FROM users</span><br><span class="line">    WHERE id IN</span><br><span class="line">    &lt;foreach collection=<span class="string">&quot;ids&quot;</span> item=<span class="string">&quot;id&quot;</span> open=<span class="string">&quot;(&quot;</span> separator=<span class="string">&quot;,&quot;</span> close=<span class="string">&quot;)&quot;</span>&gt;</span><br><span class="line">        #&#123;id&#125;</span><br><span class="line">    &lt;/foreach&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="5-vs-的区别">5. <code>#&#123;&#125; </code> vs <code>$&#123;&#125;</code> 的区别</h5>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#&#123;&#125;</code></td>
+<td>安全预编译参数，防 SQL 注入</td>
+</tr>
+<tr>
+<td><code>$&#123;&#125;</code></td>
+<td>字符串拼接，容易 SQL 注入</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-Maven-和-ANT-的区别">7. Maven 和 ANT 的区别</h3>
+<p>Maven 的特点：</p>
+<ul>
+<li><strong>约定优于配置</strong>：只要遵循 Maven 的目录规范，就能减少配置。</li>
+<li><strong>内置生命周期</strong>：比如 <code>compile</code>, <code>test</code>, <code>package</code>, <code>install</code>，统一标准。</li>
+<li><strong>依赖管理强大</strong>：自动下载并维护依赖的版本、传递依赖。</li>
+<li><strong>适合大型项目/多模块项目</strong>。</li>
+</ul>
+<p>Ant 的特点：</p>
+<ul>
+<li><strong>自由度高</strong>：构建过程由开发者完全控制。</li>
+<li><strong>像写脚本一样灵活</strong>：适合非标准构建流程。</li>
+<li><strong>需要手动管理依赖</strong>，如拷贝 <code>.jar</code> 文件到 <code>lib/</code>。</li>
+<li><strong>适合简单项目或自定义流程场景</strong>。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Maven</th>
+<th>Ant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>构建方式</strong></td>
+<td>声明式（Declarative）</td>
+<td>命令式（Procedural）</td>
+</tr>
+<tr>
+<td><strong>配置文件</strong></td>
+<td><code>pom.xml</code>（使用 XML 描述项目结构）</td>
+<td><code>build.xml</code>（使用 XML 编写构建脚本）</td>
+</tr>
+<tr>
+<td><strong>依赖管理</strong></td>
+<td>自动依赖管理（通过 Maven 仓库）</td>
+<td>无内建依赖管理（需手动下载 JAR 包）</td>
+</tr>
+<tr>
+<td><strong>标准化目录结构</strong></td>
+<td>有固定的标准结构（如 <code>src/main/java</code>）</td>
+<td>无标准结构，自定义项目目录</td>
+</tr>
+<tr>
+<td><strong>插件支持</strong></td>
+<td>丰富的插件体系（生命周期集成）</td>
+<td>也有插件，但通常是手动调用任务</td>
+</tr>
+<tr>
+<td><strong>构建生命周期</strong></td>
+<td>内置生命周期（compile, test, package）</td>
+<td>无生命周期概念，任务完全手动组合</td>
+</tr>
+<tr>
+<td><strong>学习曲线</strong></td>
+<td>相对陡峭，依赖抽象概念</td>
+<td>相对平缓，像写脚本一样简单</td>
+</tr>
+<tr>
+<td><strong>可维护性</strong></td>
+<td>高（统一结构、自动化强）</td>
+<td>低（构建流程复杂时难维护）</td>
+</tr>
+<tr>
+<td><strong>扩展能力</strong></td>
+<td>强，社区生态活跃</td>
+<td>较弱，需要自定义任务实现</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-什么是-Spring-Boot-Stater-？">8. 什么是 Spring Boot Stater ？</h3>
+<p><strong>Spring Boot Starter</strong> 是一种 <strong>自动化配置依赖模块</strong>，它封装了一组相关功能所需的依赖，开发者只需引入一个 Starter，就能快速拥有该功能。Starter 的本质就是一个 <strong>Maven 依赖包（POM 文件）</strong>，内部通过 <code>&lt;dependency&gt;</code> 聚合多个相关依赖，起到了“模块入口”的作用。</p>
+<p><strong>Spring Boot Starter 是一种约定好的依赖集合</strong>，通过它可以“一键接入”各种 Spring 功能，省去了繁琐的配置和依赖管理，是 Spring Boot 实现自动配置与快速开发的基础设施。</p>
+<h3 id="9-Springboot-如何集成-MyBatis？">9. Springboot 如何集成 MyBatis？</h3>
+<p>Spring Boot 集成 MyBatis 通常通过官方提供的 <code>mybatis-spring-boot-starter</code> 来简化配置。完整的集成步骤和示例如下：</p>
+<h5 id="1-添加依赖">1. 添加依赖</h5>
+<p>在 <code>pom.xml</code> 中加入 MyBatis Starter 和数据库驱动依赖（以 MySQL 为例）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Spring Boot Starter --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- MyBatis Spring Boot Starter --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span> <span class="comment">&lt;!-- 根据实际版本调整 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- MySQL 驱动 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="2-配置数据源">2. 配置数据源</h5>
+<p>在 <code>application.properties</code> 或 <code>application.yml</code> 配置数据库连接：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/testdb?useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">your_password</span></span><br><span class="line"><span class="attr">spring.datasource.driver-class-name</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+<h5 id="3-编写-Mapper-接口和-XML">3. 编写 Mapper 接口和 XML</h5>
+<ul>
+<li><strong>Mapper 接口</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    User <span class="title function_">getUserById</span><span class="params">(Integer id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Mapper XML</strong>（放在 <code>resources/mapper/UserMapper.xml</code>）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span> ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">mapper</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span></span><br><span class="line"><span class="meta"> <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">&quot;com.example.mapper.UserMapper&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;getUserById&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;com.example.model.User&quot;</span>&gt;</span></span><br><span class="line">        SELECT id, username, email FROM users WHERE id = #&#123;id&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="4-Mapper-扫描配置（可选）">4. Mapper 扫描配置（可选）</h5>
+<p>如果 Mapper 接口上没有使用 <code>@Mapper</code> 注解，可以在主启动类或者配置类添加：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@MapperScan(&quot;com.example.mapper&quot;)</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoApplication</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(DemoApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="5-使用-Mapper">5. 使用 Mapper</h5>
+<p>在 Service 或 Controller 中注入并调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUserById</span><span class="params">(Integer id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> userMapper.getUserById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="6-常用配置（application-properties）">6. 常用配置（application.properties）</h5>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定 Mapper XML 文件路径（默认是 classpath:mapper/*.xml）</span></span><br><span class="line"><span class="attr">mybatis.mapper-locations</span>=<span class="string">classpath:mapper/*.xml</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># 是否打印 SQL</span></span><br><span class="line"><span class="attr">mybatis.configuration.log-impl</span>=<span class="string">org.apache.ibatis.logging.stdout.StdOutImpl</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># 驼峰命名转换</span></span><br><span class="line"><span class="attr">mybatis.configuration.map-underscore-to-camel-case</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://bush-cn.github.io">bush Wu</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://bush-cn.github.io/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%982%EF%BC%88MyBatis%EF%BC%89/">http://bush-cn.github.io/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%982%EF%BC%88MyBatis%EF%BC%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://bush-cn.github.io" target="_blank">bush's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/Spring/">Spring</a><a class="post-meta__tags" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/07/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%BC%95%E8%AE%BA/" title="操作系统复习笔记1-引论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">操作系统复习笔记1-引论</div></div><div class="info-2"><div class="info-item-1"> 此部分内容为笔者大二下学期的复习笔记摘过来的。  Ⅰ操作系统引论 什么是操作系统  操作系统是一组管理计算机硬件资源的软件集合，它向计算机程序提供共性的服务。      API(Application Programming Interface) ABI(Application Binary Interface)     定义 是一些预先定义的函数，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，而又无需了解源码和内部实现细节。 目标文件格式、符号修饰标准、变量内存分布方式、函数调用方式等这些跟二进制可执行代码兼容性相关的内容称为 ABI。   描述的内容 API 规定操作系统、硬件平台、服务组件、语言函数库等需要提供的功能函数接口； ABI 规定了二进制文件的格式、内容、装载/卸载程序的要求、函数调用时的参数传递规则、寄存器、堆栈的使用   作用的层面 API描述代码级层面的接口 ABI描述二进制层面的接口   兼容的难度  ABI的兼容程度比API更为严格，即ABI实现兼容更加困难。    操作系统简史 批处理系统  批处理系统：加载在计算机上的一个系统...</div></div></div></a><a class="pagination-related" href="/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%981%EF%BC%88Spring%EF%BC%89/" title="Java企业级开发简答题1（Spring）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Java企业级开发简答题1（Spring）</div></div><div class="info-2"><div class="info-item-1">作业 1：简答题  22371495 吴自强  [TOC] 1. Spring 的核心容器有哪些模块组成？列举 Spring 框架的优点 Spring核心容器的四个模块为：  Spring-core模块：提供了框架的基本功能，包括 IoC（控制反转）和依赖注入（DI）机制。 Spring-beans模块：提供对 Bean 的配置、创建和管理，是 IoC 的核心部分。 Spring-context模块：基于 Core 和 Beans 模块构建，提供更高级的应用框架（如国际化、事件传播、资源访问等），常用类如 ApplicationContext。 Spring-expression模块：提供强大的表达式语言，用于在运行时查询和操作对象图（如 #&#123;user.name&#125;）。  Spring 框架的优点：  轻量级、非侵入性 Spring 是轻量级的，依赖注入不依赖于具体实现类，业务代码不需要继承特定类，降低耦合。 IoC（控制反转）和 DI（依赖注入） 通过 IoC 容器管理对象生命周期和依赖关系，使得组件更容易解耦和测试。 AOP（面向切面编程）支持 方便实现事务...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/07/11/Java%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91%E7%AE%80%E7%AD%94%E9%A2%981%EF%BC%88Spring%EF%BC%89/" title="Java企业级开发简答题1（Spring）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-11</div><div class="info-item-2">Java企业级开发简答题1（Spring）</div></div><div class="info-2"><div class="info-item-1">作业 1：简答题  22371495 吴自强  [TOC] 1. Spring 的核心容器有哪些模块组成？列举 Spring 框架的优点 Spring核心容器的四个模块为：  Spring-core模块：提供了框架的基本功能，包括 IoC（控制反转）和依赖注入（DI）机制。 Spring-beans模块：提供对 Bean 的配置、创建和管理，是 IoC 的核心部分。 Spring-context模块：基于 Core 和 Beans 模块构建，提供更高级的应用框架（如国际化、事件传播、资源访问等），常用类如 ApplicationContext。 Spring-expression模块：提供强大的表达式语言，用于在运行时查询和操作对象图（如 #&#123;user.name&#125;）。  Spring 框架的优点：  轻量级、非侵入性 Spring 是轻量级的，依赖注入不依赖于具体实现类，业务代码不需要继承特定类，降低耦合。 IoC（控制反转）和 DI（依赖注入） 通过 IoC 容器管理对象生命周期和依赖关系，使得组件更容易解耦和测试。 AOP（面向切面编程）支持 方便实现事务...</div></div></div></a><a class="pagination-related" href="/2025/06/13/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Redis学习笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-13</div><div class="info-item-2">Redis学习笔记</div></div><div class="info-2"><div class="info-item-1">Redis学习笔记 Redis Redis简介 Redis（Remote Dictionary Server）是一种开源的、基于内存的键值对（key-value）数据库，可以用作数据库、缓存和消息中间件。它以极高的性能、丰富的数据结构和多种实用功能而著称，被广泛用于高并发、低延迟的应用场景中，如电商秒杀、社交应用、排行榜、会话缓存等。 Redis特点    特点 说明     高性能 所有数据操作都在内存中完成，读写速度极快（百万级QPS）。   丰富数据结构 支持多种数据类型：字符串（string）、列表（list）、集合（set）、有序集合（zset）、哈希表（hash）、位图、HyperLogLog、地理位置等。   持久化 虽然是内存数据库，但支持将数据持久化到磁盘，防止宕机数据丢失（RDB快照和AOF日志）。   支持事务 可以一次执行多个命令，具备基本的事务特性（MULTI/EXEC）。   支持发布/订阅 可实现消息系统的 pub/sub 通信模型。   支持主从复制与集群 具备高可用（哨兵）与分布式（Redis Cluster）能力。   原子操作 所有单条 Re...</div></div></div></a><a class="pagination-related" href="/2025/06/13/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="跨域问题及解决方案"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-13</div><div class="info-item-2">跨域问题及解决方案</div></div><div class="info-2"><div class="info-item-1">跨域请求问题 跨域请求问题是**浏览器的同源策略（Same-Origin Policy, SOP）**所导致的一种前端限制。 同源 所谓“同源”，是指两个页面的协议（protocol）、域名（host）和端口（port）必须完全相同。 例如：    URL 是否同源 说明     http://example.com/page1 是 与自己比   http://example.com:8080/page1 否 端口不同   https://example.com/page1 否 协议不同   http://api.example.com/page1 否 子域不同    跨域 当浏览器的网页尝试向不同源的服务器发送请求时，就发生了跨域请求，如：  当前网页在 http://localhost:8080 JS 发起 AJAX 请求到 http://api.example.com，此时就是跨域请求  常见跨域行为包括：  Ajax 请求接口 加载第三方脚本、样式、图片（部分不受限制） 使用 fetch 获取不同域资源 WebSocket（需特殊处理）  Spring Boot 中跨域的...</div></div></div></a><a class="pagination-related" href="/2025/06/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Java 多线程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-13</div><div class="info-item-2">Java 多线程</div></div><div class="info-2"><div class="info-item-1">Java多线程 Java SE中的多线程 Java SE中最基础的多线程方式（适用于任何Java程序）包括两种：   方法1：继承 Thread 类 123456public class MyThread extends Thread &#123;    @Override    public void run() &#123;        System.out.println(&quot;线程名：&quot; + Thread.currentThread().getName());    &#125;&#125; 使用： 123456public class Main &#123;    public static void main(String[] args) &#123;        MyThread t1 = new MyThread();        t1.start();  // 启动线程，run() 方法会被自动调用    &#125;&#125;   方法2：实现 Runnable 接口 123456public class MyRunnable impl...</div></div></div></a><a class="pagination-related" href="/2025/06/13/WebSocket%E4%BD%BF%E7%94%A8/" title="WebSocket使用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-13</div><div class="info-item-2">WebSocket使用</div></div><div class="info-2"><div class="info-item-1">WebSocket WebSocket 是一种基于 TCP 协议的全双工通信协议，它允许客户端和服务器之间建立持久的、双向的通信连接。相比传统的 HTTP 请求 - 响应模式，WebSocket 提供了实时、低延迟的数据传输能力。通过 WebSocket，客户端和服务器可以随时发送数据，而不需要每次都重新建立连接。实现实时更新和即时通信的功能。 WebSocket 协议经过了多个浏览器和服务器的支持，成为了现代 Web 应用中常用的通信协议之一。它广泛应用于聊天应用、实时数据更新、多人游戏等场景，为 Web 应用提供了更好的用户体验和更高效的数据传输方式。    特点 描述     持久连接 建立一次连接后，客户端和服务器之间保持连接状态   全双工通信 客户端和服务器都可以主动发送消息   低延迟、实时性强 适合聊天、游戏、股票、实时推送等应用   节省资源 与传统 HTTP 请求相比，减少了请求头等开销   基于 TCP 协议 和 HTTP 一样基于 TCP，但是一个独立协议    Spring Boot中使用WebSocket 以我们组的大作业为例，在学生答题端和教师监考端...</div></div></div></a><a class="pagination-related" href="/2025/07/04/Java%20SE%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Java SE复习笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-04</div><div class="info-item-2">Java SE复习笔记</div></div><div class="info-2"><div class="info-item-1"> 第一次找实习wwwwwwww好紧张希望能顺利。  Java SE复习笔记 JVM Java虚拟机（Java Virtual Machine，简称JVM）是运行所有Java程序的抽象计算机，是Java语言的运行环境。 Java语言的一个非常重要的特点就是与平台的无关性（一次编译、处处运行）。而使用Java虚拟机是实现这一特点的关键。一般的高级语言如果要在不同的平台上运行，至少需要编译成不同的目标代码。而引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。Java语言使用模式Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。 JVM中提供的JIT（即时编译方式）将字节码直接转化成高性能的本地机器码，即JIT使得Java程序既能跨平台又能高速运行。 Java集合  ArrayList Java ArrayList 常用方法列表如下：    方法 描述     add() 将元素插入到指定位置的 ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">bush Wu</div><div class="author-info-description">北京航空航天大学21系软件工程专业22级本科生。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/bush-cn"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/bush-cn" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:bush_wu@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%9C%E4%B8%9A-2%EF%BC%9A%E7%AE%80%E7%AD%94%E9%A2%98"><span class="toc-text">作业 2：简答题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%AE%80%E8%BF%B0-MyBatis-%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-text">1. 简述 MyBatis 的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%AE%80%E8%BF%B0-MyBatis-%E5%92%8C-Spring-%E7%9A%84%E6%95%B4%E5%90%88%E8%BF%87%E7%A8%8B"><span class="toc-text">2. 简述 MyBatis 和 Spring 的整合过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%99%A4-MyBatis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%A1%86%E6%9E%B6%E5%A4%96%EF%BC%8C%E6%82%A8%E8%BF%98%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B%E6%8C%81%E4%B9%85%E5%8C%96%E6%A1%86%E6%9E%B6%EF%BC%9F%E5%B9%B6%E8%AF%B4%E6%98%8E%E4%BB%96%E4%BB%AC%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">3. 除 MyBatis 持久化框架外，您还知道哪些持久化框架？并说明他们的特点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Hibernate"><span class="toc-text">1. Hibernate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-JPA%EF%BC%88Java-Persistence-API%EF%BC%89"><span class="toc-text">2. JPA（Java Persistence API）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Spring-Data-JPA"><span class="toc-text">3. Spring Data JPA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Apache-iBATIS%EF%BC%88MyBatis-%E5%89%8D%E8%BA%AB%EF%BC%89"><span class="toc-text">4. Apache iBATIS（MyBatis 前身）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-jOOQ"><span class="toc-text">5. jOOQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Spring-Data-JDBC"><span class="toc-text">6. Spring Data JDBC</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-MyBatis-%E5%AE%9E%E7%8E%B0%E6%9F%A5%E8%AF%A2%E6%97%B6%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%9A%84%E7%BB%93%E6%9E%9C%E9%9B%86%E6%9C%89%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F%EF%BC%9F%E8%AF%B7%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E3%80%82"><span class="toc-text">4. MyBatis 实现查询时，返回的结果集有几种常见的存储方式？请举例说明。</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E8%BF%94%E5%9B%9E-%E5%8D%95%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-text">1. 返回 单个对象</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%BF%94%E5%9B%9E-%E5%AF%B9%E8%B1%A1%E5%88%97%E8%A1%A8%EF%BC%88List%EF%BC%89"><span class="toc-text">2. 返回 对象列表（List）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E8%BF%94%E5%9B%9E-Map"><span class="toc-text">3. 返回 Map</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E8%BF%94%E5%9B%9E-%E5%B5%8C%E5%A5%97%E5%AF%B9%E8%B1%A1%EF%BC%88%E5%A4%9A%E8%A1%A8%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%EF%BC%89"><span class="toc-text">4. 返回 嵌套对象（多表联合查询）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E8%BF%94%E5%9B%9E-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E6%88%96%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B"><span class="toc-text">5. 返回 基本类型或包装类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%9C%A8-MyBatis-%E4%B8%AD%E9%92%88%E5%AF%B9%E4%B8%8D%E5%90%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BD%AF%E4%BB%B6%EF%BC%8C-insert-%E5%85%83%E7%B4%A0%E5%A6%82%E4%BD%95%E5%B0%86%E4%B8%BB%E9%94%AE%E5%9B%9E%E5%A1%AB%EF%BC%9F"><span class="toc-text">5. 在 MyBatis 中针对不同的数据库软件，&lt;insert&gt;元素如何将主键回填？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8-useGeneratedKeys"><span class="toc-text">一、使用 useGeneratedKeys</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BD%BF%E7%94%A8-selectKey-%E5%AD%90%E5%85%83%E7%B4%A0%EF%BC%88%E9%80%82%E7%94%A8%E4%BA%8E-Oracle%E3%80%81PostgreSQL%E3%80%81DB2-%E7%AD%89%EF%BC%89"><span class="toc-text">二、使用 selectKey 子元素（适用于 Oracle、PostgreSQL、DB2 等）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%9C%A8-MyBatis-%E4%B8%AD%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BB%99-SQL-%E8%AF%AD%E5%8F%A5%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%EF%BC%9F"><span class="toc-text">6. 在 MyBatis 中，如何给 SQL 语句传递参数？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%8D%95%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-text">1. 单个参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="toc-text">2. 多个参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E4%BC%A0%E9%80%92-JavaBean-%E6%88%96-Map-%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="toc-text">3. 传递 JavaBean 或 Map 类型参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E9%9B%86%E5%90%88%E5%8F%82%E6%95%B0%EF%BC%88%E7%94%A8%E4%BA%8E-IN-%E6%9F%A5%E8%AF%A2%EF%BC%89"><span class="toc-text">4. 集合参数（用于 IN 查询）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-vs-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">5. #{}  vs ${} 的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Maven-%E5%92%8C-ANT-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">7. Maven 和 ANT 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%BB%80%E4%B9%88%E6%98%AF-Spring-Boot-Stater-%EF%BC%9F"><span class="toc-text">8. 什么是 Spring Boot Stater ？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Springboot-%E5%A6%82%E4%BD%95%E9%9B%86%E6%88%90-MyBatis%EF%BC%9F"><span class="toc-text">9. Springboot 如何集成 MyBatis？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-text">1. 添加依赖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="toc-text">2. 配置数据源</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%BC%96%E5%86%99-Mapper-%E6%8E%A5%E5%8F%A3%E5%92%8C-XML"><span class="toc-text">3. 编写 Mapper 接口和 XML</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Mapper-%E6%89%AB%E6%8F%8F%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-text">4. Mapper 扫描配置（可选）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8-Mapper"><span class="toc-text">5. 使用 Mapper</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%EF%BC%88application-properties%EF%BC%89"><span class="toc-text">6. 常用配置（application.properties）</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/04/%E6%8E%A8%E5%85%8D%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="推免复习笔记">推免复习笔记</a><time datetime="2025-09-04T06:03:39.000Z" title="发表于 2025-09-04 14:03:39">2025-09-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="计算机网络面试复习笔记">计算机网络面试复习笔记</a><time datetime="2025-07-18T08:03:17.000Z" title="发表于 2025-07-18 16:03:17">2025-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B03-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/" title="操作系统复习笔记3-进程管理">操作系统复习笔记3-进程管理</a><time datetime="2025-07-18T07:58:47.000Z" title="发表于 2025-07-18 15:58:47">2025-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B02-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="操作系统复习笔记2-内存管理">操作系统复习笔记2-内存管理</a><time datetime="2025-07-18T07:47:49.000Z" title="发表于 2025-07-18 15:47:49">2025-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/07/18/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%BC%95%E8%AE%BA/" title="操作系统复习笔记1-引论">操作系统复习笔记1-引论</a><time datetime="2025-07-18T06:34:35.000Z" title="发表于 2025-07-18 14:34:35">2025-07-18</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By bush Wu</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
