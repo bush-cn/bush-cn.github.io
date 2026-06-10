@@ -285,7 +285,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: BUAA本科软件工程专业，硕士推免本校085400电子信息专业。
+    description: BUAA软件工程本科，硕士推免本校085400。
     button:
       enable: true
       icon: fab fa-github
