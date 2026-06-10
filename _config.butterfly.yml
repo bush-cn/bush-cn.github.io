@@ -285,7 +285,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: 北京航空航天大学21系软件工程专业22级本科生。
+    description: BUAA本科软件工程专业，硕士推免本校085400电子信息专业。
     button:
       enable: true
       icon: fab fa-github
